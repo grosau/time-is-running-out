@@ -36,6 +36,11 @@ public class PlayerController : MonoBehaviour
         if (controller.isGrounded)
         {
             fallVelocity = -2f;
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                fallVelocity = jumpForce;                                                                                     // apply jump force
+            }
         }
         else
         {

@@ -437,8 +437,8 @@ GameObject:
   - component: {fileID: 1492774676}
   - component: {fileID: 1492774675}
   - component: {fileID: 1492774674}
-  - component: {fileID: 1492774672}
   - component: {fileID: 1492774671}
+  - component: {fileID: 1492774672}
   m_Layer: 0
   m_Name: player
   m_TagString: Untagged
@@ -485,7 +485,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  jumpForce: 0
+  jumpForce: 20
   cameraTransform: {fileID: 330585546}
   mouseSensitivity: 2
   lookClamp: 80
