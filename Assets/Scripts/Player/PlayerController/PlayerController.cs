@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] float moveSpeed;
     [SerializeField] float jumpForce;
+    [SerializeField] float gravityScale;
 
     [SerializeField] Transform cameraTransform;
     [SerializeField] float mouseSensitivity;
@@ -36,15 +37,14 @@ public class PlayerController : MonoBehaviour
         if (controller.isGrounded)
         {
             fallVelocity = -2f;
-
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                fallVelocity = jumpForce;                                                                                     // apply jump force
+                fallVelocity = jumpForce;
             }
         }
         else
         {
-            fallVelocity += Physics.gravity.y * Time.deltaTime;                                                                 // apply gravity
+            fallVelocity += Physics.gravity.y * Time.deltaTime * gravityScale;
         }
 
         moveDirection.y = fallVelocity;                                                                                         // apply vertical velocity
