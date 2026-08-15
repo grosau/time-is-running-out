@@ -15,7 +15,7 @@ public class EnemyBase : MonoBehaviour
     public delegate void EnemyKilled();
     public static event EnemyKilled OnEnemyKilled;
 
-    void Start()
+    protected virtual void Start()
     {
         player = GameObject.FindWithTag("Player");
     }
