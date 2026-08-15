@@ -7,14 +7,16 @@ public class WaveSpawner : MonoBehaviour
     public int currentWave;
     [SerializeField] List<GameObject> enemyPrefabs;
     [SerializeField] List<Transform> spawnPoints;
-    private List<GameObject> activeEnemies;
+    private int activeEnemyCount;
     [SerializeField] int enemiesPerWave;
 
 
     void Start()
     {
-        activeEnemies = new List<GameObject>();
+
         GameManager.OnGameStateChanged += HandleStateChange;
+
+        EnemyBase.OnEnemyKilled += HandleEnemyKilled;
     }
 
     void HandleStateChange(GameManager.GameState newState)
@@ -37,6 +39,8 @@ public class WaveSpawner : MonoBehaviour
     void OnDestroy()
     {
         GameManager.OnGameStateChanged -= HandleStateChange;
+
+        EnemyBase.OnEnemyKilled -= HandleEnemyKilled;
     }
 
     void SpawnWave()
@@ -46,8 +50,17 @@ public class WaveSpawner : MonoBehaviour
             int randomIndex = Random.Range(0, spawnPoints.Count);
             Transform spawnPoint = spawnPoints[randomIndex];
             GameObject enemy = Instantiate(enemyPrefabs[0], spawnPoint.position, Quaternion.identity);
-            activeEnemies.Add(enemy);
+            activeEnemyCount++;
         }
         currentWave++;
+    }
+
+    void HandleEnemyKilled()
+    {
+        activeEnemyCount--;
+        if (activeEnemyCount <= 0)
+        {
+            GameManager.Instance.ChangeState(GameManager.GameState.PowerUpSelection);
+        }
     }
 }

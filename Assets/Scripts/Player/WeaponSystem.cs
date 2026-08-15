@@ -78,11 +78,11 @@ public class WeaponSystem : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, range))
         {
-            //EnemyBase enemy = hit.collider.gameObject.GetComponent<EnemyBase>();
-            //if (enemy != null)
-            // {
-            //    enemy.TakeDamage(bulletDamage);
-            // }
+            EnemyBase enemy = hit.collider.gameObject.GetComponent<EnemyBase>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(bulletDamage);
+            }
         }
         currentAmmo--;
         StartCoroutine(ShootCooldownCoroutine());
