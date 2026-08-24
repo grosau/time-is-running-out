@@ -93,4 +93,20 @@ public class WeaponSystem : MonoBehaviour
         StartCoroutine(ShootCooldownCoroutine());
 
     }
+
+    public void IncreaseDamage(float amount)
+    {
+        bulletDamage += amount;
+    }
+
+    public void IncreaseFireRate(float amount)
+    {
+        fireRate -= amount; // lower fireRate = faster shooting
+    }
+
+    public void IncreaseAmmoCapacity(int amount)
+    {
+        magazineSize += amount;
+        currentAmmo += amount;
+    }
 }

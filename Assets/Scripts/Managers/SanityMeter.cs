@@ -10,9 +10,13 @@ public class SanityMeter : MonoBehaviour
 
     bool depleteSanity = false;
     [SerializeField] float sanityDepletionRate;
+    private bool extremeSanityTriggered = false;
 
     public delegate void SanityChanged(float currentSanity);
     public static event SanityChanged _onSanityChanged;
+
+    public delegate void SanityDepleted();
+    public static event SanityDepleted OnExtremeSanity;
 
     void Start()
     {
@@ -27,13 +31,21 @@ public class SanityMeter : MonoBehaviour
         {
             CurrentSanity -= sanityDepletionRate * Time.deltaTime;
             _onSanityChanged?.Invoke(CurrentSanity);
+
             if (CurrentSanity <= 0)
             {
                 CurrentSanity = 0;
-                GameManager.Instance.ChangeState(GameManager.GameState.GameOver);
+                if (!extremeSanityTriggered)
+                {
+                    extremeSanityTriggered = true;
+                    OnExtremeSanity?.Invoke();
+                }
+            }
+            else
+            {
+                extremeSanityTriggered = false;
             }
         }
-
     }
 
     void OnDestroy()
@@ -61,5 +73,10 @@ public class SanityMeter : MonoBehaviour
                 depleteSanity = false;
                 break;
         }
+    }
+
+    public void RestoreSanity(float amount)
+    {
+        CurrentSanity = Mathf.Min(CurrentSanity + amount, MaxSanity);
     }
 }

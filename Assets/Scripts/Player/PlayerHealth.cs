@@ -29,4 +29,9 @@ public class PlayerHealth : MonoBehaviour
         }
 
     }
+
+    public void HealHP(float amount)
+    {
+        currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
+    }
 }

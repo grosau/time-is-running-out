@@ -8,4 +8,7 @@
 
 // in the game over all of the ui should dissapear, and the only thing should be a menu with some different death quotes and buttons to go back to the main menu and retry. I also want to add  screen distortion and data moshing before you die
 
+// you dont die when sanity reaches 0
+// When in extreme sanity, you hear whispers and the music is bass boosted, distortions become extreme.
+
 // POWERUPS

@@ -14,6 +14,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform cameraTransform;
     [SerializeField] float mouseSensitivity;
     [SerializeField] float lookClamp;
+
+    [SerializeField] int maxJumps = 1;
+    private int jumpsRemaining;
     private float verticalRotation;
     private float fallVelocity;
 
@@ -26,6 +29,7 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         controller = GetComponent<CharacterController>();
+        jumpsRemaining = maxJumps;
     }
 
 
@@ -41,12 +45,16 @@ public class PlayerController : MonoBehaviour
         if (controller.isGrounded)
         {
             fallVelocity = -2f;
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                fallVelocity = jumpForce;
-            }
+            jumpsRemaining = maxJumps; // reset jumps on landing
         }
-        else
+
+        if (Input.GetKeyDown(KeyCode.Space) && jumpsRemaining > 0)
+        {
+            fallVelocity = jumpForce;
+            jumpsRemaining--;
+        }
+
+        if (!controller.isGrounded)
         {
             fallVelocity += Physics.gravity.y * Time.deltaTime * gravityScale;
         }
@@ -62,6 +70,21 @@ public class PlayerController : MonoBehaviour
         knockbackVelocity = Vector3.Lerp(knockbackVelocity, Vector3.zero, Time.deltaTime * 5f);
 
 
+    }
+
+    public void IncreaseMoveSpeed(float amount)
+    {
+        moveSpeed += amount;
+    }
+
+    public void IncreaseJumpforce(float amount)
+    {
+        jumpForce += amount;
+    }
+
+    public void IncreaseMaxJumps(int amount)
+    {
+        maxJumps += amount;
     }
 
     public void ApplyKnockback(Vector3 direction, float force)
