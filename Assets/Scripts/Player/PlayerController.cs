@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
+    private bool isActive = false;
     private CharacterController controller;
 
     [SerializeField] float moveSpeed;
@@ -26,8 +26,8 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        GameManager.OnGameStateChanged += HandleStateChange;
+
         controller = GetComponent<CharacterController>();
         jumpsRemaining = maxJumps;
     }
@@ -35,6 +35,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (!isActive) return;
+
         transform.Rotate(Vector3.up * Input.GetAxis("Mouse X") * inputDirection * mouseSensitivity); // mouse look horizontal
         verticalRotation += Input.GetAxis("Mouse Y") * inputDirection * mouseSensitivity;            // mouse look vertical
         verticalRotation = Mathf.Clamp(verticalRotation, -lookClamp, lookClamp);    // clamp vertical
@@ -70,6 +72,27 @@ public class PlayerController : MonoBehaviour
         knockbackVelocity = Vector3.Lerp(knockbackVelocity, Vector3.zero, Time.deltaTime * 5f);
 
 
+    }
+
+    void OnDestroy()
+    {
+        GameManager.OnGameStateChanged -= HandleStateChange;
+    }
+
+    void HandleStateChange(GameManager.GameState newState)
+    {
+        switch (newState)
+        {
+            case GameManager.GameState.Arena:
+            case GameManager.GameState.Corridor:
+                isActive = true;
+                break;
+            case GameManager.GameState.MainMenu:
+            case GameManager.GameState.PowerUpSelection:
+            case GameManager.GameState.GameOver:
+                isActive = false;
+                break;
+        }
     }
 
     public void IncreaseMoveSpeed(float amount)

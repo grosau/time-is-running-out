@@ -11,4 +11,6 @@
 // you dont die when sanity reaches 0
 // When in extreme sanity, you hear whispers and the music is bass boosted, distortions become extreme.
 
+// headshots should be one tap, and some weapons should have a laser sight like in cruelty squad
+
 // POWERUPS

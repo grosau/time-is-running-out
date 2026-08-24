@@ -25,6 +25,12 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        StartCoroutine(InitializeGame());
+    }
+
+    IEnumerator InitializeGame()
+    {
+        yield return null;
         ChangeState(GameState.MainMenu);
     }
 
@@ -35,5 +41,21 @@ public class GameManager : MonoBehaviour
     {
         currentGameState = newState;
         OnGameStateChanged?.Invoke(newState);
+    }
+
+    public void StartGame()
+    {
+        Debug.Log("StartGame called");
+        ChangeState(GameState.Corridor);
+    }
+
+    public void RetryGame()
+    {
+        ChangeState(GameState.Corridor);
+    }
+
+    public void GoToMainMenu()
+    {
+        ChangeState(GameState.MainMenu);
     }
 }

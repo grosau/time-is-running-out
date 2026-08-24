@@ -44,6 +44,7 @@ public class UIManager : MonoBehaviour
 
     void HandleStateChange(GameManager.GameState newState)
     {
+        Debug.Log("UIManager recived State " + newState);
         switch (newState)
         {
             case GameManager.GameState.MainMenu:
@@ -57,18 +58,24 @@ public class UIManager : MonoBehaviour
                 hudPanel.SetActive(true);
                 PowerupPanel.SetActive(false);
                 gameOverPanel.SetActive(false);
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
                 break;
             case GameManager.GameState.Arena:
                 mainMenuPanel.SetActive(false);
                 hudPanel.SetActive(true);
                 PowerupPanel.SetActive(false);
                 gameOverPanel.SetActive(false);
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
                 break;
             case GameManager.GameState.PowerUpSelection:
                 mainMenuPanel.SetActive(false);
                 hudPanel.SetActive(true);
                 PowerupPanel.SetActive(true);
                 gameOverPanel.SetActive(false);
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
                 break;
             case GameManager.GameState.GameOver:
                 mainMenuPanel.SetActive(false);
