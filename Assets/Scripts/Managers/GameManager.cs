@@ -45,8 +45,8 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        Debug.Log("StartGame called");
-        ChangeState(GameState.Corridor);
+
+        ChangeState(GameState.Arena);
     }
 
     public void RetryGame()
@@ -57,5 +57,10 @@ public class GameManager : MonoBehaviour
     public void GoToMainMenu()
     {
         ChangeState(GameState.MainMenu);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }
