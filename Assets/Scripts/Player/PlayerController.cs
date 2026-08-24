@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 knockbackVelocity;
 
+    private float inputDirection = 1f;
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -29,12 +31,12 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        transform.Rotate(Vector3.up * Input.GetAxis("Mouse X") * mouseSensitivity); // mouse look horizontal
-        verticalRotation += Input.GetAxis("Mouse Y") * mouseSensitivity;            // mouse look vertical
+        transform.Rotate(Vector3.up * Input.GetAxis("Mouse X") * inputDirection * mouseSensitivity); // mouse look horizontal
+        verticalRotation += Input.GetAxis("Mouse Y") * inputDirection * mouseSensitivity;            // mouse look vertical
         verticalRotation = Mathf.Clamp(verticalRotation, -lookClamp, lookClamp);    // clamp vertical
         cameraTransform.localEulerAngles = Vector3.left * verticalRotation;         // apply to camera
 
-        Vector3 moveDirection = transform.forward * Input.GetAxis("Vertical") + transform.right * Input.GetAxis("Horizontal");  // movement direction
+        Vector3 moveDirection = transform.forward * Input.GetAxis("Vertical") * inputDirection + transform.right * Input.GetAxis("Horizontal") * inputDirection;  // movement direction
 
         if (controller.isGrounded)
         {
@@ -66,5 +68,12 @@ public class PlayerController : MonoBehaviour
     {
         fallVelocity = force;
         knockbackVelocity = direction * force;
+    }
+
+    public IEnumerator InvertControls(float duration)
+    {
+        inputDirection = -1f;
+        yield return new WaitForSeconds(duration);
+        inputDirection = 1f;
     }
 }
