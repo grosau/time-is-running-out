@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     private float verticalRotation;
     private float fallVelocity;
 
+    private Vector3 knockbackVelocity;
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -54,7 +56,15 @@ public class PlayerController : MonoBehaviour
 
         controller.Move(moveDirection * moveSpeed * Time.deltaTime);                                                            // move player
         controller.Move(verticalMove * Time.deltaTime);                                                                         //vertical movement (gravity)
+        controller.Move(knockbackVelocity * Time.deltaTime);
+        knockbackVelocity = Vector3.Lerp(knockbackVelocity, Vector3.zero, Time.deltaTime * 5f);
 
 
+    }
+
+    public void ApplyKnockback(Vector3 direction, float force)
+    {
+        fallVelocity = force;
+        knockbackVelocity = direction * force;
     }
 }
