@@ -15,6 +15,9 @@ public class WeaponSystem : MonoBehaviour
     private bool canShoot;
     [SerializeField] float range;
 
+    public delegate void AmmoChanged(int currentAmmo);
+    public static event AmmoChanged OnAmmoChanged;
+
 
 
 
@@ -62,6 +65,7 @@ public class WeaponSystem : MonoBehaviour
         canShoot = false;
         yield return new WaitForSeconds(reloadTime);
         currentAmmo = magazineSize;
+        OnAmmoChanged?.Invoke(currentAmmo);
         isReloading = false;
         canShoot = true;
     }
@@ -85,6 +89,7 @@ public class WeaponSystem : MonoBehaviour
             }
         }
         currentAmmo--;
+        OnAmmoChanged?.Invoke(currentAmmo);
         StartCoroutine(ShootCooldownCoroutine());
 
     }

@@ -8,7 +8,7 @@ public class PlayerHealth : MonoBehaviour
     public delegate void OnPlayerDeath();
     public static event OnPlayerDeath _onPlayerDeath;
 
-    public delegate void OnHealthChange();
+    public delegate void OnHealthChange(float currentHealth);
     public static event OnHealthChange _onHealthChange;
 
     [SerializeField] float maxHealth;
@@ -22,7 +22,7 @@ public class PlayerHealth : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
-        _onHealthChange?.Invoke();
+        _onHealthChange?.Invoke(currentHealth);
         if (currentHealth <= 0)
         {
             _onPlayerDeath?.Invoke();
