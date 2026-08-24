@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class EnemyBase : MonoBehaviour
 {
-    private GameObject player;
+    protected GameObject player;
 
     [SerializeField] float enemyHP;
     [SerializeField] float enemySpeed;
     [SerializeField] float enemyVision;
+    [SerializeField] protected float attackRange;
     [SerializeField] EnemyState currentState;
     [SerializeField] float confusedSpinSpeed;
 
@@ -31,6 +32,12 @@ public class EnemyBase : MonoBehaviour
                 }
                 break;
             case EnemyState.Chasing:
+
+                float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+                if (distanceToPlayer <= attackRange)
+                {
+                    Attack();
+                }
                 Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
                 transform.Translate(directionToPlayer * enemySpeed * Time.deltaTime, Space.World);
                 if (CanSeePlayer() == false)
@@ -85,4 +92,6 @@ public class EnemyBase : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    protected virtual void Attack() { }
 }
